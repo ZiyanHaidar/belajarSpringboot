@@ -29,7 +29,25 @@ public class UserImpl implements UserService {
 
     @Override
     public User registerUser(User admin) {
+        // Check if the email already exists
+        Optional<User> existingEmail = userRepository.findByEmail(admin.getEmail());
+        if (existingEmail.isPresent()) {
+            throw new BadRequestException("Email sudah digunakan");
+        }
+
+        // Check if the username already exists
+        Optional<User> existingUsername = userRepository.findByUsername(admin.getUsername());
+        if (existingUsername.isPresent()) {
+            throw new BadRequestException("Username sudah digunakan");
+        }
+
+        // Set the role to "USER" by default
+        admin.setRole("USER");
+
+        // Encode the password before saving
         admin.setPassword(encoder.encode(admin.getPassword()));
+
+        // Save and return the registered user
         return userRepository.save(admin);
     }
 

@@ -52,13 +52,21 @@ public class AuthService  {
             throw new BadCredentialsException("Email atau password yang Anda masukkan salah");
         }
 
-        // Generate token after successful authentication
+        // Generate token
         String token = jwtTokenUtil.generateToken(userDetails);
 
+        // Adjust response structure
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("id", ((UserDetail) userDetails).getId());
+        userData.put("email", userDetails.getUsername());
+        userData.put("role", ((UserDetail) userDetails).getRole());
+
         Map<String, Object> response = new HashMap<>();
-        response.put("data", userDetails);
+        response.put("data", userData);
         response.put("token", token);
+
         return response;
     }
+
 
 }

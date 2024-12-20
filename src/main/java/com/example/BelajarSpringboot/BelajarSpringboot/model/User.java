@@ -4,7 +4,7 @@ package com.example.BelajarSpringboot.BelajarSpringboot.model;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "user")
 public class User {
 
     @Id
@@ -74,6 +74,4 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-
 }
